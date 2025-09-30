@@ -77,7 +77,7 @@ export default function Navbar() {
             href="tel:+919876846464"
             className="text-yellow-400 font-semibold text-[1.1rem] lg:text-[1.4rem]"
           >
-            +91-8971686464
+            +91-8968480646
           </a>
         </div>
 

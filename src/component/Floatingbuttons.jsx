@@ -2,7 +2,7 @@ import React from "react";
 import { MessageCircle, Phone } from "lucide-react";
 
 export default function  FloatingButtons() {
-  const phoneNumber = "+919876543210"; // Replace with your actual number
+  const phoneNumber = "+918968480646"; // Replace with your actual number
   const whatsappMessage =
     "Hi, I would like to get a quote for vehicle insurance.";
 
