@@ -36,10 +36,10 @@ const SvgText = styled.svg`
     max-height: 140px;
   }
   @media (max-width: 480px) {
-    max-height: 110px;
+    max-height: 115px;
   }
   @media (max-width: 320px) {
-    max-height: 90px;
+    max-height: 100px;
   }
 `;
 
@@ -65,12 +65,12 @@ const StrokeText = styled.text`
     letter-spacing: 10px;
   }
   @media (max-width: 480px) {
-    font-size: 50px;
+    font-size: 70px;
     letter-spacing: 6px;
     stroke-width: 2.5;
   }
   @media (max-width: 320px) {
-    font-size: 36px;
+    font-size: 70px;
     letter-spacing: 4px;
     stroke-width: 2;
   }
@@ -93,11 +93,11 @@ const FillText = styled.text`
     letter-spacing: 10px;
   }
   @media (max-width: 480px) {
-    font-size: 50px;
+    font-size: 70px;
     letter-spacing: 6px;
   }
   @media (max-width: 320px) {
-    font-size: 36px;
+    font-size: 70px;
     letter-spacing: 4px;
   }
 `;

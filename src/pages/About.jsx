@@ -202,3 +202,94 @@ export default function AboutSection() {
     </>
   );
 }
+
+
+// import React, { useState, useEffect } from "react";
+
+// const LocationSearch = () => {
+//   const [query, setQuery] = useState("");
+//   const [debouncedQuery, setDebouncedQuery] = useState(query);
+//   const [suggestions, setSuggestions] = useState([]);
+//   const [loading, setLoading] = useState(false);
+
+//   // Debounce input
+//   useEffect(() => {
+//     const handler = setTimeout(() => setDebouncedQuery(query), 400);
+//     return () => clearTimeout(handler);
+//   }, [query]);
+
+//   // Fetch suggestions for India only
+//   useEffect(() => {
+//     if (!debouncedQuery) {
+//       setSuggestions([]);
+//       setLoading(false);
+//       return;
+//     }
+
+//     const fetchLocations = async () => {
+//       setLoading(true);
+//       try {
+//         const res = await fetch(
+//           `https://nominatim.openstreetmap.org/search?format=json&q=${debouncedQuery}&countrycodes=IN&addressdetails=1`
+//         );
+//         const data = await res.json();
+//         setSuggestions(data.slice(0, 5)); // top 5
+//       } catch (err) {
+//         console.error(err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchLocations();
+//   }, [debouncedQuery]);
+
+//   const handleSelect = (place) => {
+//     setQuery(place.display_name);
+//     setSuggestions([]);
+//   };
+
+//   return (
+//     <div style={{ position: "relative", width: "300px" }}>
+//       <input
+//         type="text"
+//         placeholder="Type location in India..."
+//         value={query}
+//         onChange={(e) => setQuery(e.target.value)}
+//         style={{ background: "#f9f9f9", width: "100%", padding: "8px" }}
+//       />
+//       {loading && (
+//         <div style={{ position: "absolute", top: "38px", left: "10px" }}>
+//           🔄 Loading...
+//         </div>
+//       )}
+//       {!loading && suggestions.length > 0 && (
+//         <div
+//           style={{
+//             position: "absolute",
+//             top: "38px",
+//             width: "100%",
+//             background: "#fff",
+//             border: "1px solid #ccc",
+//             maxHeight: "200px",
+//             overflowY: "auto",
+//             zIndex: 1000,
+//           }}
+//         >
+//           {suggestions.map((place) => (
+//             <div
+//               key={place.place_id}
+//               onClick={() => handleSelect(place)}
+//               style={{ padding: "5px", cursor: "pointer" }}
+//             >
+//               {place.display_name}
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default LocationSearch;
+
