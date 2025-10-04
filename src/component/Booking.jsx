@@ -537,6 +537,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import emailjs from "emailjs-com"; // ✅ import EmailJS
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -740,13 +741,41 @@ export default function BookingForm({ selectedCar, onBookingSuccess }) {
       });
 
       if (response.ok) {
+        // ✅ EmailJS integration
+        emailjs
+          .send(
+            "service_nfbexgq", // replace with your EmailJS service ID
+            "template_7jf7vew", // replace with your EmailJS template ID
+            {
+              from_name: formData.name,
+              from_email: formData.email,
+              phone: formData.phone,
+              carType: formData.carType,
+
+              pickup: formData.pickup,
+              drop: formData.drop,
+              startDate: formData.startDate || "N/A",
+              endDate: formData.endDate || "N/A",
+              duration: formData.duration || "N/A",
+              license: formData.license || "N/A",
+              adhar: formData.adhar || "N/A",
+              dob: formData.dob || "N/A",
+             
+            },
+            "G_xLabDcdARR76EbH" // replace with your EmailJS public key
+          )
+          .then(
+            (res) => console.log("Email sent successfully", res.text),
+            (err) => console.error("EmailJS error", err)
+          );
+
+        // Optional backend email API
         await fetch(`${API_BASE_URL}/email/send`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
-            message: `New booking for ${JSON.stringify(formData)} `,
           }),
         });
 
@@ -784,6 +813,7 @@ export default function BookingForm({ selectedCar, onBookingSuccess }) {
     }
   };
 
+  // ...rest of your JSX (forms, modal, success popup) remains unchanged
   return (
     <div className="w-full flex justify-center items-center py-4">
       <div className="w-[600px] p-8 m-8 h-auto rounded-xl shadow-2xl border border-yellow-400 bg-black/40 backdrop-blur-lg overflow-y-auto">
@@ -995,7 +1025,7 @@ export default function BookingForm({ selectedCar, onBookingSuccess }) {
         >
           Read Terms & Conditions
         </p>
-         {showTermsModal && (
+        {showTermsModal && (
           <div className="fixed inset-0  flex justify-center items-center z-50">
             <motion.div
               initial={{ scale: 0 }}
