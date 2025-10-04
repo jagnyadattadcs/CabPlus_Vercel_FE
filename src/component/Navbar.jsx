@@ -42,12 +42,12 @@ export default function Navbar() {
           </li>
           <li>
             <Link to="/about" className="hover:text-yellow-400 transition">
-              About Us
+              About
             </Link>
           </li>
           <li>
             <Link to="/contact" className="hover:text-yellow-400 transition">
-              Contact Us
+              Contact
             </Link>
           </li>
         </ul>

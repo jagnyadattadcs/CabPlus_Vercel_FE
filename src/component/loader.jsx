@@ -25,13 +25,20 @@ const fillIn = keyframes`
   to { fill: #edff29ff; opacity: 1; }
 `;
 
+// Car move animation (right to left with pause at middle)
+const moveCar = keyframes`
+  0% { transform: translateX(500px); }
+  45% { transform: translateX(250px); }  /* reach middle */
+  55% { transform: translateX(250px); }  /* pause 0.2s */
+  100% { transform: translateX(-50px); } /* move to left */
+`;
+
 const SvgText = styled.svg`
-  width: 90vw; /* ✅ scale to viewport width */
-  max-width: 880px; /* desktop limit */
+  width: 90vw;
+  max-width: 880px;
   height: auto;
   max-height: 180px;
 
-  /* Responsive height caps */
   @media (max-width: 768px) {
     max-height: 140px;
   }
@@ -59,7 +66,6 @@ const StrokeText = styled.text`
   stroke-dashoffset: 1000;
   animation: ${draw} 3.5s ease forwards;
 
-  /* Scale text for smaller screens */
   @media (max-width: 768px) {
     font-size: 70px;
     letter-spacing: 10px;
@@ -87,7 +93,6 @@ const FillText = styled.text`
   animation: ${fillIn} 0.8s ease forwards;
   animation-delay: 1.5s;
 
-  /* Same responsive scaling */
   @media (max-width: 768px) {
     font-size: 70px;
     letter-spacing: 10px;
@@ -102,10 +107,24 @@ const FillText = styled.text`
   }
 `;
 
+// Car emoji or SVG
+const Car = styled.text`
+  font-size: 3.5rem;
+  animation: ${moveCar} 3s linear infinite;
+  transform-origin: left;
+
+  @media (max-width: 480px) {
+    font-size: 4rem;
+  }
+`;
+
 export default function Loader() {
   return (
     <Overlay>
       <SvgText viewBox="0 0 500 200" preserveAspectRatio="xMidYMid meet">
+        {/* Car moving right to left with pause */}
+        <Car x="0" y="30">🚗</Car>
+
         {/* Fill Layer */}
         <FillText x="50%" y="60%" textAnchor="middle" dominantBaseline="middle">
           SinghCabs
