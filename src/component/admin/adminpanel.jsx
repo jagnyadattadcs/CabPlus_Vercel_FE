@@ -3,7 +3,8 @@ import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 
 // Placeholder for API URL since environment variables aren't available
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const AdminPanel = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -41,6 +42,12 @@ const AdminPanel = () => {
   const [confirmData, setConfirmData] = useState(null);
   const [deletingImage, setDeletingImage] = useState(null);
 
+  // 🆕 New State for Image Gallery
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [newImageTitle, setNewImageTitle] = useState("");
+  const [newImageFile, setNewImageFile] = useState(null);
+  const [editingImage, setEditingImage] = useState(null);
+
   useEffect(() => {
     const storedToken = localStorage.getItem("adminToken");
     if (storedToken) {
@@ -49,6 +56,13 @@ const AdminPanel = () => {
       fetchData(storedToken);
     }
   }, []);
+
+  // 🆕 Fetch Gallery Images
+  useEffect(() => {
+    if (activeTab === "manage-images" && isLoggedIn) {
+      fetchGalleryImages();
+    }
+  }, [activeTab, isLoggedIn]);
 
   const fetchData = async (authToken) => {
     try {
@@ -82,6 +96,16 @@ const AdminPanel = () => {
       if (err.response && err.response.status === 401) {
         handleLogout();
       }
+    }
+  };
+
+  const fetchGalleryImages = async () => {
+    try {
+      const res = await axios.get(`${API_BASE_URL}/gallery`);
+      setGalleryImages(res.data);
+    } catch (err) {
+      console.error("Failed to fetch gallery images:", err);
+      setError("Failed to fetch gallery images.");
     }
   };
 
@@ -157,6 +181,12 @@ const AdminPanel = () => {
           setCars(cars.filter((car) => car._id !== data));
           setSuccess("Car deleted successfully.");
           break;
+        // 🆕 Gallery Delete
+        case "deleteGalleryImage":
+          await axios.delete(`${API_BASE_URL}/gallery/${data}`);
+          fetchGalleryImages();
+          setSuccess("Image deleted successfully.");
+          break;
         default:
           break;
       }
@@ -180,6 +210,73 @@ const AdminPanel = () => {
 
   const handleImageChange = (e) => {
     setSelectedFile(e.target.files);
+  };
+
+  // 🆕 Gallery Image Handling
+  const handleNewGalleryImageChange = (e) => {
+    setNewImageFile(e.target.files[0]);
+  };
+
+  const handleAddGalleryImage = async (e) => {
+    e.preventDefault();
+    if (!newImageFile) {
+      setError("Please select an image to upload.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("image", newImageFile);
+    if (newImageTitle) {
+      formData.append("title", newImageTitle);
+    }
+
+    try {
+      await axios.post(`${API_BASE_URL}/gallery`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      fetchGalleryImages();
+      setNewImageTitle("");
+      setNewImageFile(null);
+      setSuccess("Image uploaded successfully!");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+      console.error("Failed to add image:", err);
+      setError("Failed to add image. Please try again.");
+      setTimeout(() => setError(""), 3000);
+    }
+  };
+
+  const handleUpdateGalleryImage = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (newImageTitle) {
+      formData.append("title", newImageTitle);
+    }
+    if (newImageFile) {
+      formData.append("image", newImageFile);
+    } else if (!newImageTitle) {
+      setError("No changes to update.");
+      return;
+    }
+
+    try {
+      await axios.put(`${API_BASE_URL}/gallery/${editingImage._id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      fetchGalleryImages();
+      setEditingImage(null);
+      setNewImageTitle("");
+      setNewImageFile(null);
+      setSuccess("Image updated successfully!");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+      console.error("Failed to update image:", err);
+      setError("Failed to update image. Please try again.");
+      setTimeout(() => setError(""), 3000);
+    }
   };
 
   const handleRemoveImage = async (imageName) => {
@@ -397,7 +494,7 @@ const AdminPanel = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 flex">
-      <nav className="w-64 bg-white rounded-xl shadow-lg p-6 flex flex-col items-start gap-4 mr-6">
+      <nav className="w-64 bg-white h-[100%] rounded-xl shadow-lg p-6 flex flex-col items-start gap-4 mr-6">
         <h2 className="text-xl font-bold text-gray-800 mb-4">Navigation</h2>
         <button
           onClick={() => setActiveTab("cab-bookings")}
@@ -467,6 +564,22 @@ const AdminPanel = () => {
           }`}
         >
           Manage Users
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab("manage-images");
+            setEditingImage(null);
+            setNewImageTitle("");
+            setNewImageFile(null);
+          }}
+          className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
+            activeTab === "manage-images"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`}
+        >
+          Manage Gallery Images
         </button>
         <button
           onClick={handleLogout}
@@ -555,11 +668,6 @@ const AdminPanel = () => {
                             to {new Date(booking.endDate).toLocaleDateString()}
                           </p>
                           <p className="text-xs text-gray-500">
-                            <strong>Dates:</strong>{" "}
-                            {new Date(booking.startDate).toLocaleDateString()}{" "}
-                            to {new Date(booking.endDate).toLocaleDateString()}
-                          </p>
-                          <p className="text-xs text-gray-500">
                             <strong>Booked On:</strong>{" "}
                             {new Date(booking.createdAt).toLocaleDateString()}{" "}
                             {new Date(booking.createdAt).toLocaleTimeString()}
@@ -622,10 +730,6 @@ const AdminPanel = () => {
                           </p>
                           <p className="text-xs text-gray-500">
                             <strong>Aadhar:</strong> {booking.adhar}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            <strong>DOB:</strong>{" "}
-                            {new Date(booking.dob).toLocaleDateString()}
                           </p>
                           <p className="text-xs text-gray-500">
                             <strong>DOB:</strong>{" "}
@@ -1023,6 +1127,122 @@ const AdminPanel = () => {
                       </li>
                     ))}
                   </ul>
+                )}
+              </motion.section>
+            )}
+
+            {/* 🆕 New Section for Image Gallery */}
+            {activeTab === "manage-images" && (
+              <motion.section
+                key="manage-images"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white p-6 rounded-lg shadow-inner"
+              >
+                <h2 className="text-xl font-bold mb-4">
+                  Manage Gallery Images 🖼️
+                </h2>
+
+                {/* Add/Edit Image Form */}
+                <form
+                  onSubmit={
+                    editingImage
+                      ? handleUpdateGalleryImage
+                      : handleAddGalleryImage
+                  }
+                  className="space-y-4 mb-8 p-4 border rounded-md"
+                >
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {editingImage ? "Edit Image" : "Upload New Image"}
+                  </h3>
+                  <div>
+                    <label className="block text-gray-700 font-bold mb-1">
+                      Image Title (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={newImageTitle}
+                      onChange={(e) => setNewImageTitle(e.target.value)}
+                      className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 font-bold mb-1">
+                      Image File
+                    </label>
+                    <input
+                      type="file"
+                      onChange={handleNewGalleryImageChange}
+                      required={!editingImage}
+                      className="w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    {editingImage ? "Update Image" : "Upload Image"}
+                  </button>
+                  {editingImage && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingImage(null);
+                        setNewImageTitle("");
+                        setNewImageFile(null);
+                      }}
+                      className="w-full bg-gray-400 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-500 transition-colors mt-2"
+                    >
+                      Cancel Edit
+                    </button>
+                  )}
+                </form>
+
+                {/* Image Grid */}
+                {galleryImages.length === 0 ? (
+                  <p className="text-gray-500">No gallery images found.</p>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {galleryImages.map((image) => (
+                      <div key={image._id} className="relative group">
+                        <img
+                          src={image.imageUrl}
+                          alt={image.title}
+                          className="w-full h-48 object-cover rounded-lg shadow-md"
+                        />
+                        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                          <p className="text-white text-sm font-semibold truncate mb-1">
+                            {image.title || "Untitled"}
+                          </p>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => {
+                                setEditingImage(image);
+                                setNewImageTitle(image.title);
+                                setNewImageFile(null);
+                              }}
+                              className="bg-green-500 text-white py-1 px-2 rounded-md text-xs hover:bg-green-600 transition-colors"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() =>
+                                handleConfirmAction(
+                                  "deleteGalleryImage",
+                                  image._id
+                                )
+                              }
+                              className="bg-red-500 text-white py-1 px-2 rounded-md text-xs hover:bg-red-600 transition-colors"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </motion.section>
             )}

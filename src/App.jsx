@@ -1,3 +1,4 @@
+
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "./pages/home";
@@ -11,6 +12,7 @@ import AdminPanel from "./component/admin/adminpanel";
 import BookingForm from "./component/Booking";
 import FloatingButtons from "./component/Floatingbuttons";
 import Loader from "./component/loader";
+import Gallery from "./pages/Gallery";
 
 function App() {
 
@@ -36,6 +38,7 @@ function App() {
 
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/gallery" element={<Gallery />} />
 
         {/* Admin route */}
         <Route path="/admin" element={<AdminPanel />} />
@@ -45,6 +48,10 @@ function App() {
       <Footer />
     </>
   );
-}
+} 
 
 export default App;
+
+
+
+

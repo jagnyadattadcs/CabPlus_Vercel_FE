@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -48,6 +49,11 @@ export default function Navbar() {
           <li>
             <Link to="/contact" className="hover:text-yellow-400 transition">
               Contact
+            </Link>
+          </li>
+          <li>
+            <Link to="/gallery" className="hover:text-yellow-400 transition">
+              Gallery
             </Link>
           </li>
         </ul>
