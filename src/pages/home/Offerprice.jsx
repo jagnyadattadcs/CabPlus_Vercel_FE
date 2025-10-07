@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
+import puriimage from "../../assets/puriimage.jpg";
+import konarkimage from "../../assets/konarkimage.jpg";
 
 export default function LocationCards() {
   const locations = [
     {
       id: 1,
       title: "Bhubaneswar to Puri",
-      image:
-        "https://cdnl.iconscout.com/lottie/premium/thumb/pesquisa-de-localizacao-animation-gif-download-4623980.gif", // Puri Temple
+      image: puriimage, // Puri Temple
       originalPrice: 2000,
       offerPrice: 1600,
       distance: "65 km",
@@ -15,8 +16,7 @@ export default function LocationCards() {
     {
       id: 2,
       title: "Bhubaneswar to Konark",
-      image:
-        "https://cdnl.iconscout.com/lottie/premium/thumb/pesquisa-de-localizacao-animation-gif-download-4623980.gif", // Konark Sun Temple
+      image:  konarkimage , // Konark Sun Temple
       originalPrice: 1900,
       offerPrice: 1500,
       distance: "85 km",
@@ -26,7 +26,7 @@ export default function LocationCards() {
       id: 3,
       title: "Bhubaneswar to Sambalpur",
       image:
-        "https://cdnl.iconscout.com/lottie/premium/thumb/pesquisa-de-localizacao-animation-gif-download-4623980.gif", // Sambalpur
+        "https://ommcomnews.com/wp-content/uploads/2024/07/SAMBALPUR_THUMB-2.jpg", // Sambalpur
       originalPrice: 3999,
       offerPrice: 3699,
       distance: "260 km",

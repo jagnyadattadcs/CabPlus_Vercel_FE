@@ -13,6 +13,8 @@ import BookingForm from "./component/Booking";
 import FloatingButtons from "./component/Floatingbuttons";
 import Loader from "./component/loader";
 import Gallery from "./pages/Gallery";
+import PolicyPage from "./pages/Footerterms";
+
 
 function App() {
 
@@ -43,6 +45,7 @@ function App() {
         {/* Admin route */}
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/bookingform" element={<BookingForm />} />
+        <Route path="/terms-condition" element={<PolicyPage />} />
       </Routes>
       <FloatingButtons />
       <Footer />

@@ -16,10 +16,10 @@ export default function Footer() {
   };
 
   const resourcesLinks = {
-    "Term & Conditions": "/terms",
-    "Privacy Policy": "/privacy",
-    "Cancelation Policy": "/cancelation",
-    Feedback: "/feedback",
+    "Term & Conditions": "/terms-condition",
+    "Privacy Policy": "/terms-condition",
+    "Cancelation Policy": "/terms-condition",
+    Feedback: "/terms-condition",
   };
 
   return (
