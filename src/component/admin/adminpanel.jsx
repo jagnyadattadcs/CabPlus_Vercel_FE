@@ -47,6 +47,7 @@ const AdminPanel = () => {
   const [newImageTitle, setNewImageTitle] = useState("");
   const [newImageFile, setNewImageFile] = useState(null);
   const [editingImage, setEditingImage] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // 🆕 New state for mobile sidebar
 
   useEffect(() => {
     const storedToken = localStorage.getItem("adminToken");
@@ -444,6 +445,11 @@ const AdminPanel = () => {
     }
   };
 
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+    setIsSidebarOpen(false); // Close sidebar on tab click
+  };
+
   if (!isLoggedIn) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -493,104 +499,151 @@ const AdminPanel = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 flex">
-      <nav className="w-64 bg-white h-[100%] rounded-xl shadow-lg p-6 flex flex-col items-start gap-4 mr-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Navigation</h2>
-        <button
-          onClick={() => setActiveTab("cab-bookings")}
-          className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
-            activeTab === "cab-bookings"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-        >
-          Cab Bookings
+    <div className="min-h-screen bg-gray-100 p-4 flex flex-col md:flex-row">
+      {/* Mobile Header with Hamburger Menu */}
+      <header className="bg-white rounded-xl shadow-lg p-4 mb-4 flex items-center justify-between md:hidden">
+        <h1 className="text-xl font-bold text-gray-800">Admin Panel 🚗</h1>
+        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            ></path>
+          </svg>
         </button>
-        <button
-          onClick={() => setActiveTab("self-drive-bookings")}
-          className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
-            activeTab === "self-drive-bookings"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-        >
-          Self-Drive Bookings
-        </button>
-        <button
-          onClick={() => {
-            setActiveTab("add-car");
-            setEditingCar(null);
-            setNewCar({
-              type: "",
-              model: "",
-              name: "",
-              bodyType: "",
-              fuel: "",
-              seats: "",
-              transmission: "",
-              engine: "",
-              mileage: "",
-              price: "",
-              pricePerKm: "",
-              pricePerHour: "",
-              fullDetails: "",
-              images: [],
-            });
-          }}
-          className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
-            activeTab === "add-car"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-        >
-          Add New Car
-        </button>
-        <button
-          onClick={() => setActiveTab("view-cars")}
-          className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
-            activeTab === "view-cars"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-        >
-          View All Cars
-        </button>
-        <button
-          onClick={() => setActiveTab("users")}
-          className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
-            activeTab === "users"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-        >
-          Manage Users
-        </button>
+      </header>
 
-        <button
-          onClick={() => {
-            setActiveTab("manage-images");
-            setEditingImage(null);
-            setNewImageTitle("");
-            setNewImageFile(null);
-          }}
-          className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
-            activeTab === "manage-images"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-        >
-          Manage Gallery Images
-        </button>
-        <button
-          onClick={handleLogout}
-          className="mt-auto w-full bg-red-500 text-white font-bold py-2 px-4 rounded-md hover:bg-red-600 transition-colors"
-        >
-          Logout
-        </button>
+      {/* Sidebar */}
+      <nav
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white h-full shadow-lg p-6 transform transition-transform duration-300 ease-in-out md:static md:w-64 md:h-auto md:translate-x-0 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex justify-between items-center mb-4 md:hidden">
+          <h2 className="text-xl font-bold text-gray-800">Navigation</h2>
+          <button onClick={() => setIsSidebarOpen(false)}>
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div className="flex flex-col items-start gap-4">
+          <button
+            onClick={() => handleTabClick("cab-bookings")}
+            className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
+              activeTab === "cab-bookings"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            Cab Bookings
+          </button>
+          <button
+            onClick={() => handleTabClick("self-drive-bookings")}
+            className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
+              activeTab === "self-drive-bookings"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            Self-Drive Bookings
+          </button>
+          <button
+            onClick={() => {
+              handleTabClick("add-car");
+              setEditingCar(null);
+              setNewCar({
+                type: "",
+                model: "",
+                name: "",
+                bodyType: "",
+                fuel: "",
+                seats: "",
+                transmission: "",
+                engine: "",
+                mileage: "",
+                price: "",
+                pricePerKm: "",
+                pricePerHour: "",
+                fullDetails: "",
+                images: [],
+              });
+            }}
+            className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
+              activeTab === "add-car"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            Add New Car
+          </button>
+          <button
+            onClick={() => handleTabClick("view-cars")}
+            className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
+              activeTab === "view-cars"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            View All Cars
+          </button>
+          <button
+            onClick={() => handleTabClick("users")}
+            className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
+              activeTab === "users"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            Manage Users
+          </button>
+          <button
+            onClick={() => {
+              handleTabClick("manage-images");
+              setEditingImage(null);
+              setNewImageTitle("");
+              setNewImageFile(null);
+            }}
+            className={`w-full px-4 py-3 font-semibold rounded-lg text-left transition-colors ${
+              activeTab === "manage-images"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            Manage Gallery Images
+          </button>
+          <button
+            onClick={handleLogout}
+            className="mt-auto w-full bg-red-500 text-white font-bold py-2 px-4 rounded-md hover:bg-red-600 transition-colors"
+          >
+            Logout
+          </button>
+        </div>
       </nav>
 
-      <div className="flex-1">
-        <header className="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-6">
+      {/* Main Content */}
+      <div className="flex-1 overflow-x-hidden">
+        {/* Desktop Header */}
+        <header className="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-6 hidden md:block">
           <h1 className="text-3xl font-bold text-gray-800">Admin Panel 🚗</h1>
         </header>
 
