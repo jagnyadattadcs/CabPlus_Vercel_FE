@@ -3,9 +3,9 @@ import { MessageCircle, Phone } from "lucide-react";
 import { IoLogoWhatsapp } from "react-icons/io";
 
 export default function  FloatingButtons() {
-  const phoneNumber = "+918968480646"; // Replace with your actual number
+  const phoneNumber = "+919999999999"; // Replace with your actual number
   const whatsappMessage =
-    "Hi, I would like to get a quote for vehicle insurance.";
+    "Hi, I would like to Book Your Cab";
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col space-y-3">

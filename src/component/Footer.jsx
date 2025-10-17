@@ -2,7 +2,7 @@
 import { Facebook, Instagram } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/b8a09045-7604-44aa-b27a-eb4703716f9a.png";
+import logo from "../assets/Gemini_Generated_Image_db6vlmdb6vlmdb6v.png";
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -43,8 +43,8 @@ export default function Footer() {
 
           {/* Address */}
           <div className="mt-6 text-sm space-y-1">
-            <p>Roshan Homes, Mahadev Nagar, Jharpada-751006</p>
-            <p>absara8794@gmail.com</p>
+            <p>Sahid Nagar</p>
+            <p>email@gmail.com</p>
           </div>
 
           {/* Social Links */}

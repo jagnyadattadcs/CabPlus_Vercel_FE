@@ -94,7 +94,7 @@ const PolicyPage = () => {
             or complaints with us to help improve our services. Your input
             allows us to enhance our car collection, booking system, and
             customer support. Email us anytime at{" "}
-            <span className="text-yellow-400">absara8794@gmail.com</span>.
+            <span className="text-yellow-400">email@gmail.com</span>.
           </p>
         </motion.section>
       </div>

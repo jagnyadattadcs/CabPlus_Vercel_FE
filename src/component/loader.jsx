@@ -97,15 +97,11 @@ export default function Loader() {
     <Overlay>
       <SvgText viewBox="0 0 500 200" preserveAspectRatio="xMidYMid meet">
         {/* Car moving right to left */}
-        <Car
-          href={carpng}
-          x="0"
-          y="20"
-        />
+        <Car href={carpng} x="0" y="20" />
 
         {/* Fill Layer */}
         <FillText x="50%" y="60%" textAnchor="middle" dominantBaseline="middle">
-          SinghCabs
+          CabPlus
         </FillText>
 
         {/* Stroke Layer */}
@@ -115,7 +111,7 @@ export default function Loader() {
           textAnchor="middle"
           dominantBaseline="middle"
         >
-          SinghCabs
+          CabPlus
         </StrokeText>
       </SvgText>
     </Overlay>

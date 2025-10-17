@@ -39,7 +39,7 @@ export default function LocationCards() {
       <h1 className="text-white text-center text-3xl sm:text-4xl md:text-[2.5rem] mt-14 font-bold">
         Special Offers
       </h1>
-      <div className="flex flex-col md:flex-row flex-wrap justify-center items-center p-4 md:p-6 mt-8 gap-6">
+      <div className="flex flex-col md:flex-row flex-wrap justify-center items-center p-2 mt-8 gap-12">
         {locations.map((loc) => (
           <motion.div
             key={loc.id}
@@ -55,7 +55,7 @@ export default function LocationCards() {
               hover: { duration: 0.3 },
             }}
             viewport={{ once: true }}
-            className="w-full sm:w-[90%] md:w-[45%] lg:w-[400px] bg-gray-900 rounded-[0.6rem] shadow-xl overflow-hidden border border-gray-100 cursor-pointer"
+            className="w-full sm:w-[90%] md:w-[45%] lg:w-[350px] bg-gray-900 rounded-[0.6rem] shadow-xl overflow-hidden border border-gray-100 cursor-pointer"
           >
             {/* Main Image */}
             <div className="relative overflow-hidden">
@@ -64,7 +64,7 @@ export default function LocationCards() {
                 transition={{ duration: 0.5 }}
                 src={loc.image}
                 alt={loc.title}
-                className="w-full h-64 object-cover"
+                className="w-full h-60 object-cover"
               />
               <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                 {Math.round(
@@ -73,7 +73,7 @@ export default function LocationCards() {
                 )}
                 % OFF
               </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
                 <div className="flex items-center text-white text-sm">
                   <svg
                     className="w-4 h-4 mr-1"
@@ -104,18 +104,18 @@ export default function LocationCards() {
             </div>
 
             {/* Content */}
-            <div className="p-6">
+            <div className="p-4">
               <motion.h2
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="text-2xl font-bold text-white mb-4"
+                className="text-2xl font-bold text-white mb-3"
               >
                 {loc.title}
               </motion.h2>
 
               {/* Price Section */}
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
                   <span className="line-through text-gray-300 text-lg">
                     ₹{loc.originalPrice}
@@ -169,7 +169,7 @@ export default function LocationCards() {
                   boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)",
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full px-2 py-4 bg-[#FDC700] text-white font-bold text-lg rounded-[0.4rem] shadow-lg transition-all duration-200 hover:shadow-xl"
+                className="w-full px-2 py-3 bg-[#FDC700] text-white font-bold text-lg rounded-[0.4rem] shadow-lg transition-all duration-200 hover:shadow-xl"
                 onClick={() => {
                   const [pickup, drop] = loc.title.split(" to ");
                   localStorage.setItem("pickup", pickup || "");

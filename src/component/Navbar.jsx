@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import logo from "../assets/b8a09045-7604-44aa-b27a-eb4703716f9a.png";
+import logo from "../assets/Gemini_Generated_Image_db6vlmdb6vlmdb6v.png";
 import Login from "./Login";
 import Register from "./Register";
 
@@ -80,10 +80,10 @@ export default function Navbar() {
           )}
 
           <a
-            href="tel:+919876846464"
+            href="tel:+9199999999999"
             className="text-yellow-400 font-semibold text-[1.1rem] lg:text-[1.4rem]"
           >
-            +91-8968480646
+            +91-9999999999
           </a>
         </div>
 

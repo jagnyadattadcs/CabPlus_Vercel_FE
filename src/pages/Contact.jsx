@@ -138,12 +138,12 @@ const ContactAndBooking = () => {
           <ContactCard
             icon={phoneIcon}
             title="CALL US"
-            content={["+91-8971686464", "24/7 Support Available"]}
+            content={["+91-3232333232", "24/7 Support Available"]}
           />
           <ContactCard
             icon={emailIcon}
             title="EMAIL US"
-            content={["absara8794@gmail.com", "Response within 2 hours"]}
+            content={["email@gmail.com", "Response within 2 hours"]}
           />
           <ContactCard
             icon={chatIcon}

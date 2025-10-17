@@ -4,7 +4,7 @@ const steps = [
   {
     no: 1,
     head: "Choose Your Ride",
-    text: "Browse through Singh Cab's premium fleet, featuring both chauffeur-driven cabs and self-drive vehicles to match your style and budget.",
+    text: "Browse through CabPlus's premium fleet, featuring both chauffeur-driven cabs and self-drive vehicles to match your style and budget.",
   },
   {
     no: 2,
@@ -19,7 +19,7 @@ const steps = [
   {
     no: 4,
     head: "Enjoy Your Journey",
-    text: "Pick up your cab or self-drive vehicle and enjoy a seamless experience with Singh Cab, backed by 24/7 roadside assistance and customer support.",
+    text: "Pick up your cab or self-drive vehicle and enjoy a seamless experience with Cabplus, backed by 24/7 roadside assistance and customer support.",
   },
 ];
 
